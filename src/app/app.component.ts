@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { NgIf } from '@angular/common';
+import { AuthenticationResult } from '@azure/msal-browser';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { NgIf } from '@angular/common';
 })
 export class AppComponent implements OnInit {
   title = 'microsoft-login';
+  token: string | null = null;
 
   constructor(private msalService: MsalService) {}
 
@@ -20,6 +22,7 @@ export class AppComponent implements OnInit {
       res => {
           if (res != null && res.account != null) {
               this.msalService.instance.setActiveAccount(res.account);
+              this.getToken();
           }
       }
     );
@@ -35,5 +38,18 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.msalService.logout();
+  }
+
+  getToken() {
+    this.msalService.instance
+      .acquireTokenSilent({
+        scopes: ['User.Read'],
+      })
+      .then((res: AuthenticationResult) => {
+        this.token = res.accessToken;
+      })
+      .catch(() => {
+        this.token = 'Failed to retrieve token.';
+      });
   }
 }

@@ -6,8 +6,13 @@
     <td><button (click)="logout()" *ngIf="isLoggedIn()">SIGN OUT</button></td>
   </tr>
 </table>
+
 <div *ngIf="isLoggedIn()">Welcome you are logged in.</div>
 <div *ngIf="!isLoggedIn()">Please login to continue.</div>
 
+<div *ngIf="isLoggedIn()">
+  <h3>Access Token:</h3>
+  <textarea rows="5" cols="60" readonly>{{ token }}</textarea>
+</div>
 
 <router-outlet></router-outlet>

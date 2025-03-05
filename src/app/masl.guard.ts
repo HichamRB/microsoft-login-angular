@@ -1,4 +1,4 @@
-import { CanActivateFn } from '@angular/router';
+import  { CanActivateFn } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { inject } from '@angular/core';
 
